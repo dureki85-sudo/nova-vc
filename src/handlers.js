@@ -40,9 +40,41 @@ const vcCommand = new SlashCommandBuilder()
   )
   .addSubcommand((sub) => sub.setName("istatistik").setDescription("📊 Bot istatistiklerini gör"));
 
+const emojilerCommand = new SlashCommandBuilder()
+  .setName("emojiler")
+  .setDescription("😀 Sunucudaki tüm emojileri ID'leriyle listeler");
+
+const EMOJI_PAGE_SIZE = 30;
+
+function collectEmojiTags(guild) {
+  return [...guild.emojis.cache.values()]
+    .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+    .map((e) => (e.animated ? `<a:${e.name}:${e.id}>` : `<:${e.name}:${e.id}>`));
+}
+
+async function handleEmojiler(interaction) {
+  const tags = collectEmojiTags(interaction.guild);
+  const totalPages = Math.max(1, Math.ceil(tags.length / EMOJI_PAGE_SIZE));
+  const pageTags = tags.slice(0, EMOJI_PAGE_SIZE);
+  return interaction.reply(
+    ui.payload(ui.buildEmojiListPage(pageTags, 0, totalPages, tags.length), MessageFlags.Ephemeral)
+  );
+}
+
+function handleEmojiPageButton(interaction) {
+  const tags = collectEmojiTags(interaction.guild);
+  const totalPages = Math.max(1, Math.ceil(tags.length / EMOJI_PAGE_SIZE));
+  const requested = parseInt(interaction.customId.split(":")[2], 10);
+  const page = Math.min(Math.max(Number.isNaN(requested) ? 0 : requested, 0), totalPages - 1);
+  const pageTags = tags.slice(page * EMOJI_PAGE_SIZE, (page + 1) * EMOJI_PAGE_SIZE);
+  return interaction.update(
+    ui.payload(ui.buildEmojiListPage(pageTags, page, totalPages, tags.length))
+  );
+}
+
 async function registerCommands(client) {
   const rest = new REST().setToken(process.env.DISCORD_TOKEN);
-  const body = [vcCommand.toJSON()];
+  const body = [vcCommand.toJSON(), emojilerCommand.toJSON()];
   await rest.put(Routes.applicationCommands(client.user.id), { body });
   if (process.env.GUILD_ID) {
     await rest.put(
@@ -158,6 +190,10 @@ async function handleButton(interaction) {
 
   if (customId === "nova:guide") {
     return interaction.reply(ui.payload(ui.buildGuide(), MessageFlags.Ephemeral));
+  }
+
+  if (customId.startsWith("nova:emoji:")) {
+    return handleEmojiPageButton(interaction);
   }
 
   if (customId === "nova:stats") {
@@ -297,6 +333,9 @@ async function handleModalSubmit(interaction) {
 async function handleInteraction(interaction) {
   try {
     if (interaction.isChatInputCommand()) {
+      if (interaction.commandName === "emojiler") {
+        return handleEmojiler(interaction);
+      }
       if (interaction.commandName !== "vc") return;
       if (interaction.options.getSubcommand() === "istatistik") {
         return handleStatsRequest(interaction);

@@ -365,6 +365,49 @@ function buildDetailsCard(room) {
   return container;
 }
 
+function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
+  const container = new ContainerBuilder().setAccentColor(COLORS.blurple);
+
+  container.addTextDisplayComponents(
+    new TextDisplayBuilder().setContent(
+      `# 😀 Sunucu Emojileri\n-# Toplam **${totalCount}** emoji • Sayfa ${page + 1}/${totalPages}`
+    )
+  );
+
+  container.addSeparatorComponents(separator());
+
+  const body = pageTags.length > 0 ? pageTags.join("\n") : "*Sunucuda emoji yok 🫥*";
+  container.addTextDisplayComponents(new TextDisplayBuilder().setContent(body));
+
+  if (totalPages > 1) {
+    container.addActionRowComponents(
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`nova:emoji:${page - 1}`)
+          .setLabel("Önceki")
+          .setEmoji("◀️")
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(page <= 0),
+        new ButtonBuilder()
+          .setCustomId(`nova:emoji:${page + 1}`)
+          .setLabel("Sonraki")
+          .setEmoji("▶️")
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(page >= totalPages - 1)
+      )
+    );
+  }
+
+  container.addSeparatorComponents(separator());
+  container.addTextDisplayComponents(
+    new TextDisplayBuilder().setContent(
+      `-# Emojiye sağ tık → **Emoji Kimliğini Kopyala** ile ID'yi al • NOVA 💜`
+    )
+  );
+
+  return container;
+}
+
 function buildNoticeCard(title, body) {
   const container = new ContainerBuilder().setAccentColor(COLORS.green);
 
@@ -428,6 +471,7 @@ module.exports = {
   buildNoticeCard,
   buildWarningAlreadyOwned,
   buildDetailsCard,
+  buildEmojiListPage,
   buildLimitModal,
   buildRenameModal,
   INVITE_PERMISSIONS
