@@ -1,0 +1,17 @@
+{
+  "name": "nova-vc",
+  "version": "1.0.0",
+  "description": "NOVA — Components V2 tabanlı lüks özel kanal oluşturma botu",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "selftest": "node scripts/selftest.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.0",
+    "dotenv": "^16.4.5"
+  }
+}
