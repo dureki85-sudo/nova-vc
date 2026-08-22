@@ -15,7 +15,7 @@ const {
   MessageFlags
 } = require("discord.js");
 
-const { COLORS, BRAND_FOOTER, INVITE_PERMISSIONS } = require("./config");
+const { COLORS, BRAND_FOOTER, INVITE_PERMISSIONS, CUSTOM_EMOJIS } = require("./config");
 
 const FALLBACK_AVATAR = "https://cdn.discordapp.com/embed/avatars/0.png";
 
@@ -53,7 +53,7 @@ function buildMainPanel(avatarUrl, guildName) {
     new SectionBuilder()
       .addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-          `# 🔊 NOVA ÖZEL KANAL\n-# Kendi ses odanı saniyeler içinde kur 🚀`
+          `# ${CUSTOM_EMOJIS.logo} NOVA ÖZEL KANAL\n-# ${CUSTOM_EMOJIS.kusdans} Kendi ses odanı saniyeler içinde kur!`
         )
       )
       .setThumbnailAccessory(thumbnail(avatarUrl, "NOVA"))
@@ -61,11 +61,11 @@ function buildMainPanel(avatarUrl, guildName) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `Merhaba **${guildName}**! 🎉\n\n` +
-      `Aşağıdaki butona bas ve **kendi özel ses odanı** anında oluştur ✨\n\n` +
-      `> 🛠 Odanı kendin tasarla: kilit, gizlilik, kişi sınırı\n` +
-      `> 👑 Odanın sahibi sensin, istediğin gibi yönet\n` +
-      `> 🧹 Boş kalınca oda otomatik temizlenir, dağınıklık yok!`
+      `${CUSTOM_EMOJIS.hihi} Merhaba **${guildName}**!\n\n` +
+      `Aşağıdaki butona bas ve **kendi özel ses odanı** anında oluştur!\n\n` +
+      `> ${CUSTOM_EMOJIS.ozel} Odanı kendin tasarla: kilit, gizlilik, kişi sınırı\n` +
+      `> ${CUSTOM_EMOJIS.beyaztac} Odanın sahibi sensin, istediğin gibi yönet\n` +
+      `> ${CUSTOM_EMOJIS.ninja} Boş kalınca oda otomatik temizlenir, dağınıklık yok!`
     )
   );
 
@@ -73,9 +73,9 @@ function buildMainPanel(avatarUrl, guildName) {
 
   container.addActionRowComponents(
     new ActionRowBuilder().addComponents(
-      button("nova:room:create", "Oda Kur", "🛠", ButtonStyle.Primary),
-      button("nova:guide", "Rehber", "📖", ButtonStyle.Secondary),
-      button("nova:stats", "İstatistik", "📊", ButtonStyle.Secondary)
+      button("nova:room:create", "Oda Kur", CUSTOM_EMOJIS.wumpus, ButtonStyle.Primary),
+      button("nova:guide", "Rehber", CUSTOM_EMOJIS.kelebek, ButtonStyle.Secondary),
+      button("nova:stats", "İstatistik", CUSTOM_EMOJIS.durum, ButtonStyle.Secondary)
     )
   );
 
@@ -89,36 +89,36 @@ function buildGuide() {
   const container = new ContainerBuilder();
 
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`# 📖 NOVA Rehber\n-# Her şeyin olduğu yer, tek bakışta ✨`)
+    new TextDisplayBuilder().setContent(`# ${CUSTOM_EMOJIS.kelebek} NOVA Rehber\n-# Her şeyin olduğu yer, tek bakışta!`)
   );
 
   container.addSeparatorComponents(separator());
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `## 🛠 Oda Kurma\n` +
-      `1. Paneldeki **🛠 Oda Kur** butonuna bas.\n` +
-      `2. Odan anında kurulur ve sen içine taşınırsın 🚀\n` +
+      `## ${CUSTOM_EMOJIS.wumpus} Oda Kurma\n` +
+      `1. Paneldeki **Oda Kur** butonuna bas.\n` +
+      `2. Odan anında kurulur ve sen içine taşınırsın.\n` +
       `3. Ses kanalının yanındaki **Oda Kontrol Merkezi** panelinden her şeyi yönet.\n\n` +
-      `## 🔐 Kilit & 👻 Gizlilik\n` +
-      `> **🔒 Kilitle**: Kimse giremez, sadece izin verdiklerin girer.\n` +
-      `> **👻 Gizle**: Oda listede görünmez, tam mahremiyet 🕶️\n\n` +
-      `## 👥 Üye Yönetimi\n` +
-      `- ➕ İzin verilenler: en fazla 3 kişi ekle, kapılar onlara açılır 🚪\n` +
-      `- 🚫 Yasaklılar: en fazla 3 kişi, hem engel hem ayak bağı kesilir 🦵\n` +
-      `- 👑 Sahiplik devri: odandan birine taçı devret 👑\n\n` +
-      `## 🧹 Otomatik Temizlik\n` +
-      `Sahibi ayrılırsa taç **otomatik** içeridekilere geçer 👑\n` +
-      `Kimse kalmazsa oda **45 saniye** sonra silinir ✨\n\n` +
-      `## ⚙ Ekstra\n` +
-      `- ⚙ Kişi sınırı: 0 ile 99 arası (0 = sınırsız)\n` +
-      `- ✏ İsim değiştir: istediğin ismi ver, karakterler otomatik temizlenir`
+      `## ${CUSTOM_EMOJIS.nazar} Kilit & ${CUSTOM_EMOJIS.hayalet} Gizlilik\n` +
+      `> **Kilitle**: Kimse giremez, sadece izin verdiklerin girer.\n` +
+      `> **Gizle**: Oda listede görünmez, tam mahremiyet.\n\n` +
+      `## ${CUSTOM_EMOJIS.uye} Üye Yönetimi\n` +
+      `- İzin verilenler: en fazla 3 kişi ekle, kapılar onlara açılır.\n` +
+      `- Yasaklılar: en fazla 3 kişi, hem engel hem ayak bağı kesilir.\n` +
+      `- ${CUSTOM_EMOJIS.beyaztac} Sahiplik devri: odandan birine taçı devret.\n\n` +
+      `## ${CUSTOM_EMOJIS.ninja} Otomatik Temizlik\n` +
+      `Sahibi ayrılırsa taç **otomatik** içeridekilere geçer.\n` +
+      `Kimse kalmazsa oda **45 saniye** sonra silinir.\n\n` +
+      `## ${CUSTOM_EMOJIS.durum} Ekstra\n` +
+      `- Kişi sınırı: 0 ile 99 arası (0 = sınırsız)\n` +
+      `- İsim değiştir: istediğin ismi ver, karakterler otomatik temizlenir`
     )
   );
 
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`-# Bu paneli sadece oda sahibi kullanabilir • NOVA 💜`)
+    new TextDisplayBuilder().setContent(`-# Bu paneli sadece oda sahibi kullanabilir • NOVA ${CUSTOM_EMOJIS.mor}`)
   );
 
   return container;
@@ -138,7 +138,7 @@ function buildStatsCard(data) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# 📊 NOVA İstatistikleri\n-# Rakamlar yalan söylemez 📈`
+      `# ${CUSTOM_EMOJIS.durum} NOVA İstatistikleri\n-# Rakamlar yalan söylemez!`
     )
   );
 
@@ -146,12 +146,12 @@ function buildStatsCard(data) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `> 🟢 **Aktif Oda:** \`${data.activeRooms}\`\n` +
-      `> 🏗️ **Toplam Kurulan Oda:** \`${data.totalRooms}\`\n` +
-      `> 🏰 **Sunucu Sayısı:** \`${data.guildCount}\`\n` +
-      `> 🏓 **Ping:** \`${data.ping} ms\`\n` +
-      `> ⏱️ **Çalışma Süresi:** \`${formatUptime(data.uptimeMs)}\`\n` +
-      `> 🧩 **discord.js:** \`v${data.version}\``
+      `> ${CUSTOM_EMOJIS.wumpus} **Aktif Oda:** \`${data.activeRooms}\`\n` +
+      `> ${CUSTOM_EMOJIS.logo} **Toplam Kurulan Oda:** \`${data.totalRooms}\`\n` +
+      `> ${CUSTOM_EMOJIS.england} **Sunucu Sayısı:** \`${data.guildCount}\`\n` +
+      `> ${CUSTOM_EMOJIS.kartal} **Ping:** \`${data.ping} ms\`\n` +
+      `> ${CUSTOM_EMOJIS.dans} **Çalışma Süresi:** \`${formatUptime(data.uptimeMs)}\`\n` +
+      `> ${CUSTOM_EMOJIS.kelebek} **discord.js:** \`v${data.version}\``
     )
   );
 
@@ -168,7 +168,7 @@ function buildRoomCreatedCard(channelId, ownerId) {
     new SectionBuilder()
       .addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-          `# ✅ Odan Hazır!\n-# Keyifli sohbetler 🎶`
+          `# ${CUSTOM_EMOJIS.onay} Odan Hazır!\n-# ${CUSTOM_EMOJIS.dansedenkedi} Keyifli sohbetler!`
         )
       )
       .setThumbnailAccessory(thumbnail(null, "Hazır"))
@@ -176,9 +176,9 @@ function buildRoomCreatedCard(channelId, ownerId) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `> 🎧 Odanın: <#${channelId}>\n` +
-      `> 👑 Sahibi: <@${ownerId}>\n\n` +
-      `Aşağıdaki kontrol merkezini kullanarak odanı dilediğin gibi şekillendir 💜`
+      `> ${CUSTOM_EMOJIS.cilekkedi} **Odanın:** <#${channelId}>\n` +
+      `> ${CUSTOM_EMOJIS.beyaztac} **Sahibi:** <@${ownerId}>\n\n` +
+      `Aşağıdaki kontrol merkezini kullanarak odanı dilediğin gibi şekillendir!`
     )
   );
 
@@ -193,17 +193,17 @@ function buildSetupSuccessCard(categoryId, jtcChannelId) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# ✅ Kurulum Tamamlandı!\n-# Sistem hazır, sinyal mükemmel 📡`
+      `# ${CUSTOM_EMOJIS.onay} Kurulum Tamamlandı!\n-# ${CUSTOM_EMOJIS.hihi} Sistem hazır, sinyal mükemmel!`
     )
   );
 
   container.addSeparatorComponents(separator());
 
   const lines = [
-    `> 📂 **Kategori:** <#${categoryId}>`,
+    `> ${CUSTOM_EMOJIS.kurdele} **Kategori:** <#${categoryId}>`,
     jtcChannelId
-      ? `> 🚪 **Giriş Odası (Join-to-Create):** <#${jtcChannelId}> aktif! 🔥`
-      : `> 🚪 **Giriş Odası:** ayarlanmadı — panel üzerinden 🛠 ile oda kurulur.`
+      ? `> ${CUSTOM_EMOJIS.logo} **Giriş Odası (Join-to-Create):** <#${jtcChannelId}> aktif!`
+      : `> ${CUSTOM_EMOJIS.logo} **Giriş Odası:** ayarlanmadı — panel üzerinden **Oda Kur** ile oda kurulur.`
   ];
 
   container.addTextDisplayComponents(new TextDisplayBuilder().setContent(lines.join("\n")));
@@ -222,7 +222,7 @@ function buildControlPanel(room) {
     new SectionBuilder()
       .addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-          `# 🔒 Oda Kontrol Merkezi\n-# <#${room.channelId}>`
+          `# ${CUSTOM_EMOJIS.siyahonay} Oda Kontrol Merkezi\n-# <#${room.channelId}>`
         )
       )
       .setThumbnailAccessory(thumbnail(room.iconUrl, "Sunucu"))
@@ -236,11 +236,11 @@ function buildControlPanel(room) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `> 👑 **Sahip:** <@${room.ownerId}>\n` +
-      `> 🔐 **Durum:** ${room.locked ? "🔐 Kilitli" : "🔓 Açık"} • ${room.hidden ? "👻 Gizli" : "👁 Görünür"}\n` +
-      `> 👥 **Limit:** ${limitText}\n` +
-      `> ⏱️ **Kuruluş:** <t:${Math.floor(room.createdAt / 1000)}:R>\n` +
-      `> 🧑‍🤝‍🧑 **Odada:** ${memberLine}`
+      `> ${CUSTOM_EMOJIS.sahip} **Sahip:** <@${room.ownerId}>\n` +
+      `> ${CUSTOM_EMOJIS.durum} **Durum:** ${room.locked ? `${CUSTOM_EMOJIS.nazar} Kilitli` : `${CUSTOM_EMOJIS.gokyuzuonay} Açık`} • ${room.hidden ? `${CUSTOM_EMOJIS.hayalet} Gizli` : `${CUSTOM_EMOJIS.onay} Görünür`}\n` +
+      `> ${CUSTOM_EMOJIS.uye} **Limit:** ${limitText}\n` +
+      `> ${CUSTOM_EMOJIS.kurdele} **Kuruluş:** <t:${Math.floor(room.createdAt / 1000)}:R>\n` +
+      `> ${CUSTOM_EMOJIS.bebimonarch} **Odada:** ${memberLine}`
     )
   );
 
@@ -251,25 +251,25 @@ function buildControlPanel(room) {
       button(
         "nova:lock",
         room.locked ? "Kilidi Aç" : "Kilitle",
-        room.locked ? "🔓" : "🔒",
+        room.locked ? CUSTOM_EMOJIS.gokyuzuonay : CUSTOM_EMOJIS.nazar,
         ButtonStyle.Secondary
       ),
       button(
         "nova:ghost",
         room.hidden ? "Göster" : "Gizle",
-        room.hidden ? "👁" : "👻",
+        room.hidden ? CUSTOM_EMOJIS.onay : CUSTOM_EMOJIS.hayalet,
         ButtonStyle.Secondary
       ),
-      button("nova:delete", "Sil", "🗑", ButtonStyle.Danger)
+      button("nova:delete", "Sil", CUSTOM_EMOJIS.iptal, ButtonStyle.Danger)
     )
   );
 
   container.addActionRowComponents(
     new ActionRowBuilder().addComponents(
-      button("nova:limit", "Kişi Sınırı", "⚙", ButtonStyle.Secondary),
-      button("nova:rename", "İsmini Değiştir", "✏", ButtonStyle.Secondary),
-      button("nova:claim", "Sahiplen", "🎫", ButtonStyle.Success),
-      button("nova:details", "Detaylar", "ℹ", ButtonStyle.Secondary)
+      button("nova:limit", "Kişi Sınırı", CUSTOM_EMOJIS.uye, ButtonStyle.Secondary),
+      button("nova:rename", "İsmini Değiştir", CUSTOM_EMOJIS.dansedenkedi, ButtonStyle.Secondary),
+      button("nova:claim", "Sahiplen", CUSTOM_EMOJIS.beyaztac, ButtonStyle.Success),
+      button("nova:details", "Detaylar", CUSTOM_EMOJIS.kartal, ButtonStyle.Secondary)
     )
   );
 
@@ -305,7 +305,7 @@ function buildControlPanel(room) {
 
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`-# Bu paneli sadece oda sahibi kullanabilir • NOVA 💜`)
+    new TextDisplayBuilder().setContent(`-# Bu paneli sadece oda sahibi kullanabilir • NOVA ${CUSTOM_EMOJIS.mor}`)
   );
 
   return container;
@@ -315,7 +315,7 @@ function buildErrorCard(reason) {
   const container = new ContainerBuilder();
 
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`### ❌ İşlem Başarısız\n${reason}`)
+    new TextDisplayBuilder().setContent(`### ${CUSTOM_EMOJIS.iptal} İşlem Başarısız\n${reason}`)
   );
 
   return container;
@@ -326,9 +326,9 @@ function buildWarningAlreadyOwned(channelId) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `### ⚠️ Zaten Bir Odan Var!\n` +
-      `Seni mevcut odana taşıyorum: <#${channelId}> 🛫\n` +
-      `-# Aynı anda birden fazla oda sahibi olamazsın 💜`
+      `### ${CUSTOM_EMOJIS.nazar} Zaten Bir Odan Var!\n` +
+      `${CUSTOM_EMOJIS.kusdans} Seni mevcut odana taşıyorum: <#${channelId}>\n` +
+      `-# Aynı anda birden fazla oda sahibi olamazsın!`
     )
   );
 
@@ -340,7 +340,7 @@ function buildDetailsCard(room) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# ℹ️ Oda Detayları\n-# <#${room.channelId}>`
+      `# ${CUSTOM_EMOJIS.kartal} Oda Detayları\n-# <#${room.channelId}>`
     )
   );
 
@@ -349,13 +349,13 @@ function buildDetailsCard(room) {
   const memberCount = (room.memberIds || []).length;
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `> 🏷️ **İsim:** ${room.name}\n` +
-      `> 👑 **Sahip:** <@${room.ownerId}>\n` +
-      `> 📅 **Kuruluş:** <t:${Math.floor(room.createdAt / 1000)}:f>\n` +
-      `> 🔐 **Kilit:** ${room.locked ? "Evet 🔒" : "Hayır 🔓"}\n` +
-      `> 👻 **Gizli:** ${room.hidden ? "Evet" : "Hayır 👁"}\n` +
-      `> 👥 **Limit:** ${room.userLimit > 0 ? `${room.userLimit} kişi` : "Sınırsız ∞"}\n` +
-      `> 🧑‍🤝‍🧑 **Şu an içeride:** ${memberCount} kişi`
+      `> ${CUSTOM_EMOJIS.kelebek} **İsim:** ${room.name}\n` +
+      `> ${CUSTOM_EMOJIS.sahip} **Sahip:** <@${room.ownerId}>\n` +
+      `> ${CUSTOM_EMOJIS.kurdele} **Kuruluş:** <t:${Math.floor(room.createdAt / 1000)}:f>\n` +
+      `> ${CUSTOM_EMOJIS.nazar} **Kilit:** ${room.locked ? "Evet" : "Hayır"}\n` +
+      `> ${CUSTOM_EMOJIS.hayalet} **Gizli:** ${room.hidden ? "Evet" : "Hayır"}\n` +
+      `> ${CUSTOM_EMOJIS.uye} **Limit:** ${room.userLimit > 0 ? `${room.userLimit} kişi` : "Sınırsız ∞"}\n` +
+      `> ${CUSTOM_EMOJIS.bebimonarch} **Şu an içeride:** ${memberCount} kişi`
     )
   );
 
@@ -370,13 +370,13 @@ function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# 😀 Sunucu Emojileri\n-# Toplam **${totalCount}** emoji • Sayfa ${page + 1}/${totalPages}`
+      `# ${CUSTOM_EMOJIS.cute} Sunucu Emojileri\n-# Toplam **${totalCount}** emoji • Sayfa ${page + 1}/${totalPages}`
     )
   );
 
   container.addSeparatorComponents(separator());
 
-  const body = pageTags.length > 0 ? pageTags.join("\n") : "*Sunucuda emoji yok 🫥*";
+  const body = pageTags.length > 0 ? pageTags.join("\n") : `${CUSTOM_EMOJIS.uyku} *Sunucuda emoji yok*`;
   container.addTextDisplayComponents(new TextDisplayBuilder().setContent(body));
 
   if (totalPages > 1) {
@@ -385,13 +385,13 @@ function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
         new ButtonBuilder()
           .setCustomId(`nova:emoji:${page - 1}`)
           .setLabel("Önceki")
-          .setEmoji("◀️")
+          .setEmoji(CUSTOM_EMOJIS.gojo)
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(page <= 0),
         new ButtonBuilder()
           .setCustomId(`nova:emoji:${page + 1}`)
           .setLabel("Sonraki")
-          .setEmoji("▶️")
+          .setEmoji(CUSTOM_EMOJIS.gezi)
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(page >= totalPages - 1)
       )
@@ -401,7 +401,7 @@ function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `-# Ham formatları kopyalayıp istediğin yerde kullan • NOVA 💜`
+      `-# Ham formatları kopyalayıp istediğin yerde kullan • NOVA ${CUSTOM_EMOJIS.mor}`
     )
   );
 
@@ -412,7 +412,7 @@ function buildNoticeCard(title, body) {
   const container = new ContainerBuilder().setAccentColor(COLORS.green);
 
   container.addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`### ✅ ${title}\n${body}`)
+    new TextDisplayBuilder().setContent(`### ${CUSTOM_EMOJIS.onay} ${title}\n${body}`)
   );
 
   return container;
@@ -421,7 +421,7 @@ function buildNoticeCard(title, body) {
 function buildLimitModal() {
   const modal = new ModalBuilder()
     .setCustomId("nova-modal-limit")
-    .setTitle("⚙ Kişi Sınırı");
+    .setTitle("Kişi Sınırı");
 
   modal.addComponents(
     new ActionRowBuilder().addComponents(
@@ -441,7 +441,7 @@ function buildLimitModal() {
 function buildRenameModal(currentName) {
   const modal = new ModalBuilder()
     .setCustomId("nova-modal-rename")
-    .setTitle("✏ Oda İsmini Değiştir");
+    .setTitle("Oda İsmini Değiştir");
 
   modal.addComponents(
     new ActionRowBuilder().addComponents(
