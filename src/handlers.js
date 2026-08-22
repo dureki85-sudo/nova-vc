@@ -44,12 +44,15 @@ const emojilerCommand = new SlashCommandBuilder()
   .setName("emojiler")
   .setDescription("😀 Sunucudaki tüm emojileri ID'leriyle listeler");
 
-const EMOJI_PAGE_SIZE = 30;
+const EMOJI_PAGE_SIZE = 25;
 
 function collectEmojiTags(guild) {
   return [...guild.emojis.cache.values()]
     .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
-    .map((e) => (e.animated ? `<a:${e.name}:${e.id}>` : `<:${e.name}:${e.id}>`));
+    .map((e) => {
+      const tag = e.animated ? `<a:${e.name}:${e.id}>` : `<:${e.name}:${e.id}>`;
+      return `${tag} \`${tag}\``;
+    });
 }
 
 async function handleEmojiler(interaction) {
