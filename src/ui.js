@@ -401,7 +401,7 @@ function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `-# Her satırda: emoji + kopyalanabilir ham format • NOVA 💜`
+      `-# Ham formatları kopyalayıp istediğin yerde kullan • NOVA 💜`
     )
   );
 
