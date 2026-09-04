@@ -10,6 +10,7 @@ const {
 const db = require("./db");
 const ui = require("./ui");
 const vcManager = require("./vcManager");
+const { getServerEmojiTags } = require("./config");
 
 const vcCommand = new SlashCommandBuilder()
   .setName("vc")
@@ -42,14 +43,12 @@ const vcCommand = new SlashCommandBuilder()
 
 const emojilerCommand = new SlashCommandBuilder()
   .setName("emojiler")
-  .setDescription("😀 Sunucudaki tüm emojileri ID'leriyle listeler");
+  .setDescription("😀 Sunucudaki tüm emojileri listeler");
 
 const EMOJI_PAGE_SIZE = 40;
 
 function collectEmojiTags(guild) {
-  return [...guild.emojis.cache.values()]
-    .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
-    .map((e) => `\`<${e.animated ? "a" : ""}:${e.name}:${e.id}>\``);
+  return getServerEmojiTags(guild).map((e) => e.tag);
 }
 
 async function handleEmojiler(interaction) {
@@ -122,30 +121,42 @@ async function handleSlashCommand(interaction) {
   const guild = interaction.guild;
   const sub = interaction.options.getSubcommand();
 
-  if (!interaction.memberPermissions.has(PermissionFlagsBits.ManageGuild)) {
-    return interaction.reply(
-      errorPayload("Bu komut için **Sunucuyu Yönet** yetkisi gerekir 🛡", MessageFlags.Ephemeral)
-    );
-  }
-
   if (sub === "panel") {
+    if (!interaction.memberPermissions.has(PermissionFlagsBits.ManageGuild)) {
+      return interaction.reply(
+        errorPayload("Bu komut için **Sunucuyu Yönet** yetkisi gerekir 🛡", MessageFlags.Ephemeral)
+      );
+    }
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     const panelContainer = ui.buildMainPanel(
       client.user.displayAvatarURL({ extension: "png", size: 256 }),
       guild.name
     );
-    await interaction.channel.send(ui.payload(panelContainer));
-    return interaction.reply(
-      ui.payload(ui.buildNoticeCard("Panel Gönderildi!", "Panel aşağıya indirildi 🚀"))
-    );
+    try {
+      await interaction.channel.send(ui.payload(panelContainer));
+      return interaction.editReply(
+        ui.payload(ui.buildNoticeCard("Panel Gönderildi!", "Panel aşağıya indirildi 🚀"))
+      );
+    } catch (err) {
+      return interaction.editReply(
+        errorPayload(`Panel gönderilemedi 📨 **Sebep:** ${err.message}`)
+      );
+    }
   }
 
   if (sub === "setup") {
+    if (!interaction.memberPermissions.has(PermissionFlagsBits.ManageGuild)) {
+      return interaction.reply(
+        errorPayload("Bu komut için **Sunucuyu Yönet** yetkisi gerekir 🛡", MessageFlags.Ephemeral)
+      );
+    }
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     let category = interaction.options.getChannel("kategori");
     if (!category || category.guildId !== guild.id) {
       category = await vcManager.ensureCategory(guild);
     }
     if (!category) {
-      return interaction.reply(errorPayload("Kategori bulunamadı ve oluşturulamadı 📂"));
+      return interaction.editReply(errorPayload("Kategori bulunamadı ve oluşturulamadı 📂"));
     }
 
     const jtc = interaction.options.getChannel("giris_odasi");
@@ -154,7 +165,7 @@ async function handleSlashCommand(interaction) {
     cfg.jtcChannelId = jtc ? jtc.id : null;
     db.save();
 
-    return interaction.reply(ui.payload(ui.buildSetupSuccessCard(category.id, cfg.jtcChannelId)));
+    return interaction.editReply(ui.payload(ui.buildSetupSuccessCard(category.id, cfg.jtcChannelId)));
   }
 }
 

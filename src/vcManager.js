@@ -58,7 +58,7 @@ async function ensureCategory(guild) {
   }
   if (!category) {
     const me = guild.members.me;
-    if (!me || !me.permissions.has(PermissionFlagsBits.ManageGuild)) return null;
+    if (!me || !me.permissions.has(PermissionFlagsBits.ManageChannels)) return null;
     category = await guild.channels
       .create({ name: DEFAULT_CATEGORY_NAME, type: ChannelType.GuildCategory })
       .catch(() => null);
@@ -96,9 +96,11 @@ async function applyOverwrites(channel, room) {
   ];
 
   for (const id of new Set(room.allowedUserIds)) {
+    if (id === room.ownerId) continue;
     overwrites.push({ id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.Connect], deny: [] });
   }
   for (const id of new Set(room.deniedUserIds)) {
+    if (id === room.ownerId) continue;
     overwrites.push({
       id,
       allow: [],
@@ -109,7 +111,7 @@ async function applyOverwrites(channel, room) {
   const botId = clientRef?.user?.id;
   if (botId) overwrites.push({ id: botId, allow: BOT_ALLOW, deny: [] });
 
-  await channel.permissionOverwrites.set(overwrites);
+  await channel.permissionOverwrites.set(overwrites.filter((o) => o.allow !== undefined || o.deny !== undefined));
 }
 
 async function createRoomForMember(member) {
@@ -225,9 +227,11 @@ async function syncRoomMembership(channel, room) {
   db.save();
 
   if (!memberIds.includes(room.ownerId) && memberIds.length > 0) {
-    room.ownerId = memberIds[0];
-    room.deniedUserIds = room.deniedUserIds.filter((id) => id !== room.ownerId);
-    room.allowedUserIds = room.allowedUserIds.filter((id) => id !== room.ownerId);
+    const newOwnerId = memberIds[0];
+    room.ownerId = newOwnerId;
+    room.deniedUserIds = room.deniedUserIds.filter((id) => id !== newOwnerId);
+    room.allowedUserIds = room.allowedUserIds.filter((id) => id !== newOwnerId);
+    await channel.permissionOverwrites.delete(newOwnerId).catch(() => {});
     await applyOverwrites(channel, room).catch(() => {});
     db.save();
   }

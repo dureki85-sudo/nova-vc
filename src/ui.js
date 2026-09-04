@@ -450,7 +450,7 @@ function buildRenameModal(currentName) {
         .setLabel("Yeni oda adı (max 30 karakter)")
         .setStyle(TextInputStyle.Short)
         .setMaxLength(30)
-        .setValue((currentName || "").replace(/[/\\:*?"<>|]/g, "").slice(0, 90))
+        .setValue((currentName || "").replace(/[/\\:*?"<>|]/g, "").slice(0, 30))
         .setRequired(true)
     )
   );
