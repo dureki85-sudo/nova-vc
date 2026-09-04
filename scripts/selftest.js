@@ -25,7 +25,7 @@ function check(name, containerFn, expectAccent = null) {
   }
 }
 
-check("Ana /vc Paneli", () => ui.buildMainPanel(AVATAR, "Test Sunucusu"), 0x5865f2);
+check("Ana /vc Paneli", () => ui.buildMainPanel(ui.FALLBACK_AVATAR, "Test Sunucusu"), 0x5865f2);
 check("Rehber (renksiz)", () => ui.buildGuide(), undefined);
 check("İstatistik Kartı", () =>
   ui.buildStatsCard({

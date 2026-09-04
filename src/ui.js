@@ -38,16 +38,24 @@ function separator(large = false) {
     .setDivider(true);
 }
 
+function parseEmoji(emojiStr) {
+  if (!emojiStr || !emojiStr.includes(":")) return emojiStr;
+  const match = emojiStr.match(/^<(a?):([^:]+):(\d+)>$/);
+  if (!match) return emojiStr;
+  return { animated: match[1] === "a", name: match[2], id: match[3] };
+}
+
 function button(customId, label, emoji, style) {
   return new ButtonBuilder()
     .setCustomId(customId)
     .setLabel(label)
-    .setEmoji(emoji)
+    .setEmoji(parseEmoji(emoji))
     .setStyle(style);
 }
 
 function buildMainPanel(avatarUrl, guildName) {
   const container = new ContainerBuilder().setAccentColor(COLORS.blurple);
+  const safeUrl = avatarUrl && avatarUrl.startsWith("http") ? avatarUrl : FALLBACK_AVATAR;
 
   container.addSectionComponents(
     new SectionBuilder()
@@ -56,7 +64,7 @@ function buildMainPanel(avatarUrl, guildName) {
           `# ${CUSTOM_EMOJIS.logo} NOVA ÖZEL KANAL\n-# ${CUSTOM_EMOJIS.kusdans} Kendi ses odanı saniyeler içinde kur!`
         )
       )
-      .setThumbnailAccessory(thumbnail(avatarUrl, "NOVA"))
+      .setThumbnailAccessory(thumbnail(safeUrl, "NOVA"))
   );
 
   container.addTextDisplayComponents(
@@ -385,13 +393,13 @@ function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
         new ButtonBuilder()
           .setCustomId(`nova:emoji:${page - 1}`)
           .setLabel("Önceki")
-          .setEmoji(CUSTOM_EMOJIS.gojo)
+          .setEmoji(parseEmoji(CUSTOM_EMOJIS.gojo))
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(page <= 0),
         new ButtonBuilder()
           .setCustomId(`nova:emoji:${page + 1}`)
           .setLabel("Sonraki")
-          .setEmoji(CUSTOM_EMOJIS.gezi)
+          .setEmoji(parseEmoji(CUSTOM_EMOJIS.gezi))
           .setStyle(ButtonStyle.Secondary)
           .setDisabled(page >= totalPages - 1)
       )
