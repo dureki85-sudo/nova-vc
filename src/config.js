@@ -238,6 +238,12 @@ function randomRoomName(ownerName) {
   return `${emoji} ${base}'nin Odası`;
 }
 
+function getServerEmojiTags(guild) {
+  return [...guild.emojis.cache.values()]
+    .sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+    .map((e) => ({ name: e.name, tag: `\`<${e.animated ? "a" : ""}:${e.name}:${e.id}>\`` }));
+}
+
 module.exports = {
   COLORS,
   THEME_EMOJIS,
@@ -250,5 +256,6 @@ module.exports = {
   INVITE_PERMISSIONS,
   BRAND_FOOTER,
   sanitizeName,
-  randomRoomName
+  randomRoomName,
+  getServerEmojiTags
 };
