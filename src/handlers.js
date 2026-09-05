@@ -340,7 +340,10 @@ async function handleInteraction(interaction) {
     if (interaction.isModalSubmit()) return await handleModalSubmit(interaction);
   } catch (err) {
     console.error("[NOVA] Etkileşim hatası:", err);
-    const payloadObj = errorPayload("Beklenmeyen bir hata oluştu, tekrar dene 🔄", MessageFlags.Ephemeral);
+    const payloadObj = errorPayload(
+      `Beklenmeyen hata 🔄\n\`${err.message}\`\n\`code: ${err.code || "yok"}\``,
+      MessageFlags.Ephemeral
+    );
     try {
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp(payloadObj);
