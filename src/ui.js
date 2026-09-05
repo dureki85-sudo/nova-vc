@@ -373,6 +373,8 @@ function buildDetailsCard(room) {
   return container;
 }
 
+const EMOJI_CHUNK_SIZE = 25;
+
 function buildEmojiListPage(emojis) {
   const container = new ContainerBuilder().setAccentColor(COLORS.blurple);
 
@@ -384,11 +386,16 @@ function buildEmojiListPage(emojis) {
 
   container.addSeparatorComponents(separator());
 
-  const body =
-    emojis.length > 0
-      ? emojis.map((e) => e.tag).join("\n")
-      : `${CUSTOM_EMOJIS.uyku} *Sunucuda emoji yok*`;
-  container.addTextDisplayComponents(new TextDisplayBuilder().setContent(body));
+  if (emojis.length > 0) {
+    for (let i = 0; i < emojis.length; i += EMOJI_CHUNK_SIZE) {
+      const chunk = emojis.slice(i, i + EMOJI_CHUNK_SIZE).map((e) => e.tag).join("\n");
+      container.addTextDisplayComponents(new TextDisplayBuilder().setContent(chunk));
+    }
+  } else {
+    container.addTextDisplayComponents(
+      new TextDisplayBuilder().setContent(`${CUSTOM_EMOJIS.uyku} *Sunucuda emoji yok*`)
+    );
+  }
 
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(

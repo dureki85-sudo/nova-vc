@@ -50,9 +50,10 @@ function collectEmojiTags(guild) {
 }
 
 async function handleEmojiler(interaction) {
+  await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   const emojis = collectEmojiTags(interaction.guild);
-  return interaction.reply(
-    ui.payload(ui.buildEmojiListPage(emojis), MessageFlags.Ephemeral)
+  return interaction.editReply(
+    ui.payload(ui.buildEmojiListPage(emojis))
   );
 }
 
