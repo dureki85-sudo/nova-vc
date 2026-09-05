@@ -327,17 +327,17 @@ async function handleInteraction(interaction) {
   try {
     if (interaction.isChatInputCommand()) {
       if (interaction.commandName === "emojiler") {
-        return handleEmojiler(interaction);
+        return await handleEmojiler(interaction);
       }
       if (interaction.commandName !== "vc") return;
       if (interaction.options.getSubcommand() === "istatistik") {
-        return handleStatsRequest(interaction);
+        return await handleStatsRequest(interaction);
       }
-      return handleSlashCommand(interaction);
+      return await handleSlashCommand(interaction);
     }
-    if (interaction.isButton()) return handleButton(interaction);
-    if (interaction.isUserSelectMenu()) return handleSelectMenu(interaction);
-    if (interaction.isModalSubmit()) return handleModalSubmit(interaction);
+    if (interaction.isButton()) return await handleButton(interaction);
+    if (interaction.isUserSelectMenu()) return await handleSelectMenu(interaction);
+    if (interaction.isModalSubmit()) return await handleModalSubmit(interaction);
   } catch (err) {
     console.error("[NOVA] Etkileşim hatası:", err);
     const payloadObj = errorPayload("Beklenmeyen bir hata oluştu, tekrar dene 🔄", MessageFlags.Ephemeral);

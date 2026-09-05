@@ -55,7 +55,11 @@ client.once("clientReady", async (readyClient) => {
   console.log(`[NOVA] Hazır! 🚀 ${readyClient.guilds.cache.size} sunucu servis ediliyor 💜`);
 });
 
-client.on("interactionCreate", (interaction) => handleInteraction(interaction));
+client.on("interactionCreate", (interaction) => {
+  handleInteraction(interaction).catch((err) => {
+    console.error("[NOVA] Etkileşim hatası:", err);
+  });
+});
 
 client.on("voiceStateUpdate", (oldState, newState) => {
   vcManager.handleVoiceStateUpdate(oldState, newState).catch((err) => {
