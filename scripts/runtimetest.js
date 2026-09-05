@@ -74,12 +74,12 @@ check("ui-details", () => {
 
 check("ui-emojiPage", () => {
   const fakeTags = [];
-  for (let i = 0; i < 40; i++) fakeTags.push("`<:e" + i + ":" + i + ">`");
-  ui.buildEmojiListPage(fakeTags, 0, 3, 100);
+  for (let i = 0; i < 100; i++) fakeTags.push({ name: "e" + i, tag: "`<:e" + i + ":" + i + ">`" });
+  ui.buildEmojiListPage(fakeTags);
 });
 
 check("ui-emojiEmpty", () => {
-  ui.buildEmojiListPage([], 0, 1, 0);
+  ui.buildEmojiListPage([]);
 });
 
 check("ui-limitModal", () => {

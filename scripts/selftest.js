@@ -79,13 +79,10 @@ check("Hata Kartı (renksiz)", () => ui.buildErrorCard("Bir şeyler ters gitti �
 check("Bildirim Kartı", () => ui.buildNoticeCard("Başarılı", "Her şey yolunda 💜"), 0x57f287);
 check("Emoji Listesi × Sayfa", () =>
   ui.buildEmojiListPage(
-    ["<a:ornek_1:111111111111111111>", "<:ornek_2:222222222222222222>"],
-    0,
-    3,
-    75
+    [{ name: "ornek_1", tag: "<a:ornek_1:111111111111111111>" }, { name: "ornek_2", tag: "<:ornek_2:222222222222222222>" }]
   ), 0x5865f2
 );
-check("Emoji Listesi × Boş", () => ui.buildEmojiListPage([], 0, 1, 0), 0x5865f2);
+check("Emoji Listesi × Boş", () => ui.buildEmojiListPage([]), 0x5865f2);
 
 try {
   const limitModal = ui.buildLimitModal();

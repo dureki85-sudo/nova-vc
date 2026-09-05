@@ -373,38 +373,22 @@ function buildDetailsCard(room) {
   return container;
 }
 
-function buildEmojiListPage(pageTags, page, totalPages, totalCount) {
+function buildEmojiListPage(emojis) {
   const container = new ContainerBuilder().setAccentColor(COLORS.blurple);
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# ${CUSTOM_EMOJIS.cute} Sunucu Emojileri\n-# Toplam **${totalCount}** emoji • Sayfa ${page + 1}/${totalPages}`
+      `# ${CUSTOM_EMOJIS.cute} Sunucu Emojileri\n-# Toplam **${emojis.length}** emoji`
     )
   );
 
   container.addSeparatorComponents(separator());
 
-  const body = pageTags.length > 0 ? pageTags.join("\n") : `${CUSTOM_EMOJIS.uyku} *Sunucuda emoji yok*`;
+  const body =
+    emojis.length > 0
+      ? emojis.map((e) => e.tag).join("\n")
+      : `${CUSTOM_EMOJIS.uyku} *Sunucuda emoji yok*`;
   container.addTextDisplayComponents(new TextDisplayBuilder().setContent(body));
-
-  if (totalPages > 1) {
-    container.addActionRowComponents(
-      new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-          .setCustomId(`nova:emoji:${page - 1}`)
-          .setLabel("Önceki")
-          .setEmoji(parseEmoji(CUSTOM_EMOJIS.gojo))
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(page <= 0),
-        new ButtonBuilder()
-          .setCustomId(`nova:emoji:${page + 1}`)
-          .setLabel("Sonraki")
-          .setEmoji(parseEmoji(CUSTOM_EMOJIS.gezi))
-          .setStyle(ButtonStyle.Secondary)
-          .setDisabled(page >= totalPages - 1)
-      )
-    );
-  }
 
   container.addSeparatorComponents(separator());
   container.addTextDisplayComponents(

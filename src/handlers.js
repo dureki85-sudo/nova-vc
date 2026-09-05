@@ -45,29 +45,14 @@ const emojilerCommand = new SlashCommandBuilder()
   .setName("emojiler")
   .setDescription("😀 Sunucudaki tüm emojileri listeler");
 
-const EMOJI_PAGE_SIZE = 40;
-
 function collectEmojiTags(guild) {
-  return getServerEmojiTags(guild).map((e) => e.tag);
+  return getServerEmojiTags(guild);
 }
 
 async function handleEmojiler(interaction) {
-  const tags = collectEmojiTags(interaction.guild);
-  const totalPages = Math.max(1, Math.ceil(tags.length / EMOJI_PAGE_SIZE));
-  const pageTags = tags.slice(0, EMOJI_PAGE_SIZE);
+  const emojis = collectEmojiTags(interaction.guild);
   return interaction.reply(
-    ui.payload(ui.buildEmojiListPage(pageTags, 0, totalPages, tags.length), MessageFlags.Ephemeral)
-  );
-}
-
-function handleEmojiPageButton(interaction) {
-  const tags = collectEmojiTags(interaction.guild);
-  const totalPages = Math.max(1, Math.ceil(tags.length / EMOJI_PAGE_SIZE));
-  const requested = parseInt(interaction.customId.split(":")[2], 10);
-  const page = Math.min(Math.max(Number.isNaN(requested) ? 0 : requested, 0), totalPages - 1);
-  const pageTags = tags.slice(page * EMOJI_PAGE_SIZE, (page + 1) * EMOJI_PAGE_SIZE);
-  return interaction.update(
-    ui.payload(ui.buildEmojiListPage(pageTags, page, totalPages, tags.length))
+    ui.payload(ui.buildEmojiListPage(emojis), MessageFlags.Ephemeral)
   );
 }
 
@@ -201,10 +186,6 @@ async function handleButton(interaction) {
 
   if (customId === "nova:guide") {
     return interaction.reply(ui.payload(ui.buildGuide(), MessageFlags.Ephemeral));
-  }
-
-  if (customId.startsWith("nova:emoji:")) {
-    return handleEmojiPageButton(interaction);
   }
 
   if (customId === "nova:stats") {
