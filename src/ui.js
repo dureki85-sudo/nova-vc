@@ -373,14 +373,14 @@ function buildDetailsCard(room) {
   return container;
 }
 
-const EMOJI_CHUNK_SIZE = 25;
+const EMOJI_CHUNK_SIZE = 80;
 
-function buildEmojiListPage(emojis) {
+function buildEmojiListPage(emojis, pageLabel) {
   const container = new ContainerBuilder().setAccentColor(COLORS.blurple);
 
   container.addTextDisplayComponents(
     new TextDisplayBuilder().setContent(
-      `# ${CUSTOM_EMOJIS.cute} Sunucu Emojileri\n-# Toplam **${emojis.length}** emoji`
+      `# ${CUSTOM_EMOJIS.cute} Sunucu Emojileri\n-# Toplam **${emojis.length}** emoji${pageLabel ? ` • ${pageLabel}` : ""}`
     )
   );
 

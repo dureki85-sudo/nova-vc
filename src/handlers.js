@@ -49,12 +49,28 @@ function collectEmojiTags(guild) {
   return getServerEmojiTags(guild);
 }
 
+function chunkArray(arr, size) {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size) chunks.push(arr.slice(i, i + size));
+  return chunks;
+}
+
 async function handleEmojiler(interaction) {
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   const emojis = collectEmojiTags(interaction.guild);
-  return interaction.editReply(
-    ui.payload(ui.buildEmojiListPage(emojis))
+  if (emojis.length === 0) {
+    return interaction.editReply(ui.payload(ui.buildEmojiListPage([])));
+  }
+  const chunks = chunkArray(emojis, 80);
+  const total = emojis.length;
+  await interaction.editReply(
+    ui.payload(ui.buildEmojiListPage(chunks[0], chunks.length > 1 ? `Bölüm 1/${chunks.length}` : ""))
   );
+  for (let i = 1; i < chunks.length; i++) {
+    await interaction.followUp(
+      ui.payload(ui.buildEmojiListPage(chunks[i], `Bölüm ${i + 1}/${chunks.length}`))
+    );
+  }
 }
 
 async function registerCommands(client) {
